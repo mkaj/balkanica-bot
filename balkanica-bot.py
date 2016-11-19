@@ -1,18 +1,40 @@
-import PIL, os, time
+import PIL, os
 from PIL import Image, ImageDraw, ImageFont
 from random import randint
 
 newlineCharacters = 25
-randomPhrases =[
-    "balkanska w zylach plynie krew, kobiety wino taniec spiew, zasady proste w zyciu mam, nie rob drugiemu tego, czego ty nie chcesz sam !!",
-    "muzyka, przyjazn radosc, smiech, zycie latwiejsze staje sie przyniescie dla mnie wina dzban, potem ruszamy razem w tan !!",
-    "bedzie bedzie zabawa! Bedzie sie dzialo, I znowu nocy bdzie malo bedzie glosno, bedzie radosnie znow przetanczymy razem cala noc !!",
-    "orkiestra nie oszczedza sil, juz troche im brakuje tchu, polejcie wina rowniez im znow na parkiecie bedzie dym!! !",
-    "balkanskie rytmy polska moc , znow przetanczymy cala noc.. i jeszcze jeden, malutki wina dzban potem ruszymy razem w tan !!"
-    
-]
 saveLocation = 'result.jpg'
-frame = input('frame: ')
+phrasesFileName = 'balkanica.txt'
+res = (560,300)
+legoManRes = (165,300)
+
+def getAllImagesInDirectory():
+    fileList = []
+    for dirpath, dirnames, filenames in os.walk('.'):
+        for filename in [f for f in filenames if f.endswith('.jpg') or f.endswith('.png')]:
+            fileList.append(filename)
+    return fileList
+
+def getContentsOfFile(filename):
+    with open(filename) as file:
+        content = file.read().splitlines()
+    return content
+
+def getPhrase():
+    contents = getContentsOfFile(phrasesFileName)
+    return contents[randint(0,len(contents)-1)]
+
+def getRandomMan(fileList):
+    filename = fileList[randint(0,len(fileList)-1)]
+    result = Image.open(filename)
+    return result
+
+def pasteMan():
+    blankImage = Image.new('RGB',res,'white')
+    legoMan = getRandomMan(getAllImagesInDirectory())
+    legoMan = legoMan.resize(legoManRes)
+    blankImage.paste(legoMan,(0,0,legoManRes[0],legoManRes[1]))
+    return blankImage
 
 def convertToFit(phrase):
     for counter, char in enumerate(phrase):
@@ -21,11 +43,13 @@ def convertToFit(phrase):
     return phrase
 
 def makeImage():
-    img=Image.open(frame)
-    phrase = randomPhrases[randint(0, len(randomPhrases)-1)]
+    img = pasteMan()
+    phrase = getPhrase()
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("segoesc.ttf", 25)
     draw.text((150,10), convertToFit(phrase), font=font, fill=(0,0,0,0))
-
+                    
     img.save(saveLocation)
+
+                    
 makeImage()
