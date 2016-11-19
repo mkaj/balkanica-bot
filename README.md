@@ -1,4 +1,3 @@
 # balkanica-bot
-takes a random text fragment and draws it on a specified frame image
-
-<img src=https://i.imgur.com/eeoAKrV.jpg>
+Takes a line from the textfile and a random Lego man and places them on a blank image.
+<img src=http://i.imgur.com/gzoZ2UX.jpg>
