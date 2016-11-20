@@ -3,7 +3,6 @@ from PIL import Image, ImageDraw, ImageFont
 from random import randint
 
 newlineCharacters = 25
-saveLocation = 'result.jpg'
 phrasesFileName = 'balkanica.txt'
 res = (560,300)
 legoManRes = (165,300)
