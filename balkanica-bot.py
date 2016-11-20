@@ -60,7 +60,7 @@ def makeImage():
     font = ImageFont.truetype("segoesc.ttf", 25)
     draw.text((150,10), convertToFit(phrase), font=font, fill=(0,0,0,0))
                     
-    img.save(saveLocation)
+    img.show()
 
                     
 makeImage()
